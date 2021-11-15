@@ -6,7 +6,7 @@ class GridMap {
         this.resize(cols, rows, cell_size);
     }
 
-    resize(cols, rows, cell_size) {
+    resize(cols, rows, cell_size, hex_mode=false) {
         this.grid = [];
         this.cols = cols;
         this.rows = rows;
@@ -14,7 +14,8 @@ class GridMap {
         for(var c=0; c<cols; c++) {
             var row = [];
             for(var r=0; r<rows; r++) {
-                var cell = new Cell(CellStates.empty, c, r, c*cell_size, r*cell_size);
+                var pos = hex_mode ? this.colRowToXyHex(c,r) : [c*cell_size, r*cell_size];
+                var cell = new Cell(CellStates.empty, c, r, pos[0], pos[1]);
                 row.push(cell);
             }            
             this.grid.push(row);
@@ -76,6 +77,33 @@ class GridMap {
         else if (r < 0)
             r = 0;
         return [c, r];
+    }
+    xyToColRowHex(x, y) {
+        // point to axial
+        var q = ( 2./3 * x) / this.cell_size;
+        var r = (-1./3 * x  +  Math.sqrt(3)/3 * y) / this.cell_size;
+        // axial round
+        const xgrid = Math.round(q), ygrid = Math.round(r);
+        q -= xgrid;
+        r -= ygrid;
+        const dx = Math.round(q + 0.5*r) * (q*q >= r*r);
+        const dy = Math.round(r + 0.5*q) * (q*q < r*r);
+        var c = xgrid + dx;
+        var r = ygrid + dy;
+        if (c >= this.cols)
+            c = this.cols-1;
+        else if (c < 0)
+            c = 0;
+        if (r >= this.rows)
+            r = this.rows-1;
+        else if (r < 0)
+            r = 0;
+        return [c, r];
+    }
+    colRowToXyHex(col,row) {
+        var x = this.cell_size * 3/2 * col;
+        var y = this.cell_size * Math.sqrt(3) * (row + 0.5 * (col&1));
+        return [x, y];
     }
 }
 

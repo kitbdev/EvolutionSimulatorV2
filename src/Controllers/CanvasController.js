@@ -64,6 +64,9 @@ class CanvasController{
         this.mouse_x = offsetX;
         this.mouse_y = offsetY;
         var colRow = this.env.grid_map.xyToColRow(this.mouse_x, this.mouse_y);
+        // if (this.env.hex_mode){
+        //     colRow = this.env.grid_map.xyToColRowHex(this.mouse_x, this.mouse_y);
+        // }
         this.mouse_c = colRow[0];
         this.mouse_r = colRow[1];
         this.cur_cell = this.env.grid_map.cellAt(this.mouse_c, this.mouse_r);

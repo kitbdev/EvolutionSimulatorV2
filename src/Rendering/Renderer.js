@@ -11,6 +11,7 @@ class Renderer {
         this.fillWindow(container_id)
 		this.height = this.canvas.height;
         this.width = this.canvas.width;
+        this.hex_mode = false;
         this.cells_to_render = new Set();
         this.cells_to_highlight = new Set();
         this.highlighted_cells = new Set();
@@ -48,7 +49,7 @@ class Renderer {
     }
 
     renderCell(cell) {
-        cell.state.render(this.ctx, cell, this.cell_size);
+        cell.state.render(this.ctx, cell, this.cell_size, this.hex_mode);
     }
 
     renderOrganism(org) {
@@ -89,7 +90,10 @@ class Renderer {
         this.renderCell(cell);
         this.ctx.fillStyle = color;
         this.ctx.globalAlpha = 0.5;
-        this.ctx.fillRect(cell.x, cell.y, this.cell_size, this.cell_size);
+        // if (this.hex_mode)
+        //     CellStates.drawHex(this.ctx, cell.x, cell.y, this.cell_size);
+        // else
+            this.ctx.fillRect(cell.x, cell.y, this.cell_size, this.cell_size);
         this.ctx.globalAlpha = 1;
         this.highlighted_cells.add(cell);
     }

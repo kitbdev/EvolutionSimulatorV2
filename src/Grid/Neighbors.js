@@ -23,4 +23,15 @@ const Neighbors = {
     allSelf: [[0, 0],[0, 1],[0, -1],[1, 0],[-1, 0],[-1, -1],[1, 1],[-1, 1],[1, -1]]
 }
 
+//hex neighbors  ..
+//               .x.
+//               ..
+const HexNeighbors = {
+    all: [[0, 1],[0, -1],[1, 0],[-1, 0],[-1, -1],[-1, 1]],
+    adjacent: [[0, 1],[0, -1],[1, 0],[-1, 0]],
+    corners: [[-1, -1],[1, 1],[-1, 1],[1, -1]],
+    allSelf: [[0, 0],[0, 1],[0, -1],[1, 0],[-1, 0],[-1, -1],[1, 1],[-1, 1],[1, -1]]
+}
+
 module.exports = Neighbors;
+module.exports = HexNeighbors;

@@ -110,6 +110,10 @@ class ControlPanel {
     }
 
     defineGridSizeControls() {
+        // var env = this.engine.env;
+        // $('#hex-mode').change(function() {
+        //     env.setHexMode(this.checked);
+        // });
         $('#fill-window').change(function() {
             if (this.checked)
                 $('.col-row-input').css('display' ,'none');
@@ -120,6 +124,8 @@ class ControlPanel {
         $('#resize').click(function() {
             var cell_size = $('#cell-size').val();
             var fill_window = $('#fill-window').is(":checked");
+            var hex_mode = $('#hex-mode').is(":checked");
+            this.engine.env.setHexMode(hex_mode);
             if (fill_window) {
                 this.engine.env.resizeFillWindow(cell_size);
             }

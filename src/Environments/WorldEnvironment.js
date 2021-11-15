@@ -15,6 +15,7 @@ class WorldEnvironment extends Environment{
         var grid_rows = Math.ceil(this.renderer.height / cell_size);
         var grid_cols = Math.ceil(this.renderer.width / cell_size);
         this.grid_map = new GridMap(grid_cols, grid_rows, cell_size);
+        this.hex_mode = false;
         this.organisms = [];
         this.walls = [];
         this.total_mutability = 0;
@@ -152,6 +153,12 @@ class WorldEnvironment extends Environment{
         var cols = Math.ceil(this.renderer.width / cell_size);
         var rows = Math.ceil(this.renderer.height / cell_size);
         this.grid_map.resize(cols, rows, cell_size);
+    }
+
+    setHexMode(enabled) {
+        this.hex_mode = enabled;
+        // this.grid_map.hex_mode = enabled;
+        this.renderer.hex_mode = this.hex_mode;
     }
 }
 
