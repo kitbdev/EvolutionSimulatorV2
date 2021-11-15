@@ -157,7 +157,7 @@ class WorldEnvironment extends Environment{
 
     setHexMode(enabled) {
         this.hex_mode = enabled;
-        // this.grid_map.hex_mode = enabled;
+        this.grid_map.hex_mode = enabled;
         this.renderer.hex_mode = this.hex_mode;
     }
 }

@@ -1,18 +1,7 @@
+
 // A cell state is used to differentiate type and render the cell
 class CellState {
-    constructor(name) {
-        this.name = name;
-        this.color = 'black';
-    }
-
-    render(ctx, cell, size, ishex = false) {
-        ctx.fillStyle = this.color;
-        // if (ishex)
-        //     CellState.drawHex(ctx, cell.x, cell.y, size / 2);
-        // else
-            ctx.fillRect(cell.x, cell.y, size, size);
-    }
-    drawHex(ctx, x, y, radius) {
+    static drawHex(ctx, x, y, radius) {
         const ang = 2 * Math.PI / 6;// 60 deg
         ctx.beginPath();
         for (var i = 0; i < 6; i++) {
@@ -20,6 +9,18 @@ class CellState {
         }
         ctx.closePath();
         ctx.fill();
+    }
+    constructor(name) {
+        this.name = name;
+        this.color = 'black';
+    }
+
+    render(ctx, cell, size, ishex = false) {
+        ctx.fillStyle = this.color;
+        if (ishex)
+            CellState.drawHex(ctx, cell.x, cell.y, size);
+        else
+            ctx.fillRect(cell.x, cell.y, size, size);
     }
 }
 

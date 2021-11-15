@@ -3,10 +3,11 @@ const CellStates = require('../Organism/Cell/CellStates');
 
 class GridMap {
     constructor(cols, rows, cell_size) {
+        this.hex_mode = false;
         this.resize(cols, rows, cell_size);
     }
 
-    resize(cols, rows, cell_size, hex_mode=false) {
+    resize(cols, rows, cell_size) {
         this.grid = [];
         this.cols = cols;
         this.rows = rows;
@@ -14,7 +15,7 @@ class GridMap {
         for(var c=0; c<cols; c++) {
             var row = [];
             for(var r=0; r<rows; r++) {
-                var pos = hex_mode ? this.colRowToXyHex(c,r) : [c*cell_size, r*cell_size];
+                var pos = this.hex_mode ? this.colRowToXyHex(c,r) : [c*cell_size, r*cell_size];
                 var cell = new Cell(CellStates.empty, c, r, pos[0], pos[1]);
                 row.push(cell);
             }            
@@ -80,25 +81,28 @@ class GridMap {
     }
     xyToColRowHex(x, y) {
         // point to axial
-        var q = ( 2./3 * x) / this.cell_size;
-        var r = (-1./3 * x  +  Math.sqrt(3)/3 * y) / this.cell_size;
+        var q = ( 2.0/3 * x) / this.cell_size;
+        var r = (-1.0/3 * x  +  Math.sqrt(3)/3 * y) / this.cell_size;
         // axial round
-        const xgrid = Math.round(q), ygrid = Math.round(r);
-        q -= xgrid;
-        r -= ygrid;
-        const dx = Math.round(q + 0.5*r) * (q*q >= r*r);
-        const dy = Math.round(r + 0.5*q) * (q*q < r*r);
-        var c = xgrid + dx;
-        var r = ygrid + dy;
-        if (c >= this.cols)
-            c = this.cols-1;
-        else if (c < 0)
-            c = 0;
-        if (r >= this.rows)
-            r = this.rows-1;
-        else if (r < 0)
-            r = 0;
-        return [c, r];
+        const qgrid = Math.round(q), rgrid = Math.round(r);
+        q -= qgrid, r -= rgrid; // remainder
+        const dq = Math.round(q + 0.5*r) * (q*q >= r*r);
+        const dr = Math.round(r + 0.5*q) * (q*q < r*r);
+        var aq = qgrid + dq;
+        var ar = rgrid + dr;
+        // axial to oddq
+        var col = aq;
+        var row = ar + (aq - (aq&1)) / 2;
+        // clamp
+        if (col >= this.cols)
+            col = this.cols-1;
+        else if (col < 0)
+            col = 0;
+        if (row >= this.rows)
+            row = this.rows-1;
+        else if (row < 0)
+            row = 0;
+        return [col, row];
     }
     colRowToXyHex(col,row) {
         var x = this.cell_size * 3/2 * col;

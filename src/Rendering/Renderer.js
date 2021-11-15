@@ -90,9 +90,9 @@ class Renderer {
         this.renderCell(cell);
         this.ctx.fillStyle = color;
         this.ctx.globalAlpha = 0.5;
-        // if (this.hex_mode)
-        //     CellStates.drawHex(this.ctx, cell.x, cell.y, this.cell_size);
-        // else
+        if (this.hex_mode)
+            Renderer.drawHex(this.ctx, cell.x, cell.y, this.cell_size);
+        else
             this.ctx.fillRect(cell.x, cell.y, this.cell_size, this.cell_size);
         this.ctx.globalAlpha = 1;
         this.highlighted_cells.add(cell);
@@ -106,6 +106,16 @@ class Renderer {
         if (clear_to_highlight) {
             this.cells_to_highlight.clear();
         }
+    }
+
+    static drawHex(ctx, x, y, radius) {
+        const ang = 2 * Math.PI / 6;// 60 deg
+        ctx.beginPath();
+        for (var i = 0; i < 6; i++) {
+            ctx.lineTo(x + radius * Math.cos(ang * i), y + radius * Math.sin(ang * i));
+        }
+        ctx.closePath();
+        ctx.fill();
     }
 }
 

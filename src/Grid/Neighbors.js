@@ -33,5 +33,4 @@ const HexNeighbors = {
     allSelf: [[0, 0],[0, 1],[0, -1],[1, 0],[-1, 0],[-1, -1],[1, 1],[-1, 1],[1, -1]]
 }
 
-module.exports = Neighbors;
-module.exports = HexNeighbors;
+module.exports = {Neighbors, HexNeighbors};
