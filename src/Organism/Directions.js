@@ -70,4 +70,5 @@ const HexDirections = {
         return dir;
     }
 }
-module.exports = {Directions, HexDirections};
+module.exports = Directions;
+// module.exports = {Directions, HexDirections};
